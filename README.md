@@ -68,6 +68,6 @@ I have set github action to build container image supported linux/amd64 and linu
 
 Dockerhub image: willmao/fluent-bit:[tag]
 
-Alibaba ACR image for china user: registry.cn-hangzhou.aliyuncs.com/willmao/fluent-bit:[tag]
+Alibaba ACR image for user in China: registry.cn-hangzhou.aliyuncs.com/willmao/fluent-bit:[tag]
 
 Docker image tag format: v(fluent-bit-version)-(release-version), for example v2.2.2-0.0.1.
