@@ -55,10 +55,11 @@ Prerequisites:
 - CPU arch linux/amd64,linux/arm64
 
 ```
+# steps
 1. build docker container
 docker-compose build
-1. change fluent-bit.conf according to your need
-2. start docker container
+2. change fluent-bit.conf according to your need
+3. start docker container
 docker-compose up
 ```
 
