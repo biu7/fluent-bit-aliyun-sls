@@ -33,7 +33,7 @@ jobs:
           FLUENT_BIT_VERSION=2.2.2
           GO_VERSION=1.20.12
           FLUENT_BIT_GO_PLUGINS_VERSION=0.0.1
-          org.opencontainers.image.created={{date 'YYYYMMDD' ‘Asia/Shanghai'}}
+          org.opencontainers.image.created={{date 'YYYY-MM-DD HH:mm:ss' ‘Asia/Shanghai'}}
         tags: |
           type=raw,value=latest,enable={{is_default_branch}}
           type=ref,event=branch
@@ -60,7 +60,6 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
-          BUILDTIME=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
           FLUENT_BIT_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['FLUENT_BIT_VERSION'] }}
           GO_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['GO_VERSION'] }}
           FLUENT_BIT_GO_PLUGINS_VERSION=${{ fromJSON(steps.meta.outputs.json).labels['FLUENT_BIT_GO_PLUGINS_VERSION'] }}
