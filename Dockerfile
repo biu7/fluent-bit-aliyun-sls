@@ -28,8 +28,4 @@ RUN --mount=type=bind,source=. \
 
 FROM fluent/fluent-bit:${FLUENT_BIT_VERSION}
 
-LABEL FLUENT_BIT_VERSION="${FLUENT_BIT_VERSION}"
-LABEL Maintainer="williamsofmao@gmail.com"
-LABEL FLUENT_BIT_GO_PLUGINS_VERSION="${FLUENT_BIT_GO_PLUGINS_VERSION}"
-
 COPY --from=build /out/plugins /fluent-bit/plugins

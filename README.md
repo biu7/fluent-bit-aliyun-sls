@@ -61,3 +61,11 @@ docker-compose build
 2. start docker container
 docker-compose up
 ```
+
+### Docker Image
+
+I have set github action to build container image supported linux/amd64 and linux/arm64, you may use it directly.
+
+Dockerhub image: willmao/fluent-bit:[tag]
+
+Alibaba ACR image for china user: registry.cn-hangzhou.aliyuncs.com/willmao/fluent-bit:[tag]
