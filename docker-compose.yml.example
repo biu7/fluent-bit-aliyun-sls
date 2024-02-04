@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  fluent-bit:
+    container_name: fluent-bit-go-plugins
+    build:
+      context: .
+      args:
+        - --platform=linux/arm64,linux/amd64
+    network_mode: host
+    environment:
+      - SLS_AK_ID=
+      - SLS_AK_SECRET=
+      - SLS_ENDPOINT=
+      - SLS_PROJECT=
+      - SLS_LOGSTORE=
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./plugins.conf:/fluent-bit/etc/plugins.conf
+      - ./logs:/logs
