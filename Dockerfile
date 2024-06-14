@@ -1,31 +1,21 @@
-# syntax=docker/dockerfile:1
+# Use an appropriate base image
+FROM golang:1.22-bullseye AS build
 
-ARG GO_VERSION="1.20.12"
-ARG FLUENT_BIT_VERSION="2.2.2"
-ARG FLUENT_BIT_GO_PLUGINS_VERSION="0.0.1"
+# Set the target architecture
+ARG TARGETARCH
 
-FROM --platform=$BUILDPLATFORM crazymax/goxx:${GO_VERSION} AS base
-ENV GO111MODULE=auto
-ENV CGO_ENABLED=1
+# Install dependencies
+RUN apt-get install -y --no-install-recommends gcc libc6-dev
 
-FROM base AS build
-ARG TARGETPLATFORM
+# Set the working directory
+WORKDIR /app
 
-RUN --mount=type=cache,sharing=private,target=/var/cache/apt \
-  --mount=type=cache,sharing=private,target=/var/lib/apt/lists \
-  goxx-apt-get install -y binutils gcc g++ pkg-config
+# Copy the Go source code
+COPY . .
 
-WORKDIR /go/release
-ADD . /go/release/src
-WORKDIR /go/release/src
+# Build the Go application with CGO enabled
+RUN GOARCH=amd64 GOOS=linux CGO_ENABLED=1 go build -buildmode=c-shared -o out_gsls.so ./out_gsls
 
-RUN --mount=type=bind,source=. \
-  --mount=type=cache,target=/root/.cache \
-  --mount=type=cache,target=/go/pkg/mod \
-  goxx-go build -buildmode=c-shared -o /out/plugins/out_gfile.so out_gfile/out_gfile.go \
-  && goxx-go build -buildmode=c-shared -o /out/plugins/out_gsls.so out_gsls/out_gsls.go
+FROM fluent/fluent-bit:3.0.7
 
-
-FROM fluent/fluent-bit:${FLUENT_BIT_VERSION}
-
-COPY --from=build /out/plugins /fluent-bit/plugins
+COPY --from=build /app/out_gsls.so /fluent-bit/plugins/out_gsls.so

@@ -1,0 +1,8 @@
+env_key: "FLUENTD_LOGSTORE"
+access_key_id: "access_key_id"
+access_key_secret: "access_key_secret"
+endpoint: "cn-hongkong.log.aliyuncs.com"
+project: "xxxxx-prod"
+stores:
+    - "xxx-server-logs"
+    - "xxx-console-logs"

@@ -1,20 +1,30 @@
-version: '3'
-
 services:
-  fluent-bit:
-    container_name: fluent-bit-go-plugins
-    build:
-      context: .
-      args:
-        - --platform=linux/arm64,linux/amd64
-    network_mode: host
+  app:
+    container_name: app
+    image: app:v1
+    ports:
+      - "8080:8080"
     environment:
-      - SLS_AK_ID=
-      - SLS_AK_SECRET=
-      - SLS_ENDPOINT=
-      - SLS_PROJECT=
-      - SLS_LOGSTORE=
+      FLUENTD_LOGSTORE: "to_logstore"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: app
+  fluentd:
+    container_name: fluentd
+    image: fluentd:v1.17
+    ports:
+      - "24224:24224"
     volumes:
-      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
-      - ./plugins.conf:/fluent-bit/etc/plugins.conf
-      - ./logs:/logs
+      - ./fluentd/fluentd.conf:/fluentd/fluentd.conf
+    command: ["fluentd", "-c", "/fluentd/fluentd.conf"]
+
+  fluent-bit:
+    container_name: fluent-bit
+    image: fluent-bit:3.0.7
+    volumes:
+      - ./fluent-bit/fluent-bit.conf:/fluent-bit/fluent-bit.conf
+      - ./fluent-bit/plugins.conf:/fluent-bit/plugins.conf
+      - ./fluent-bit/config.yaml:/fluent-bit/config.yaml
+    command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/fluent-bit.conf"]
