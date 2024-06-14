@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fluent-bit-go-plugins/utils"
+	"fluent-bit-aliyun-sls/utils"
 	"fmt"
 	"log"
 	"os"

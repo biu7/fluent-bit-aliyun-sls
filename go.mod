@@ -1,4 +1,4 @@
-module fluent-bit-go-plugins
+module fluent-bit-aliyun-sls
 
 go 1.22
 
@@ -26,5 +26,3 @@ require (
 	golang.org/x/net v0.26.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 )
-
-replace fluent-bit-go-plugins/utils => ./utils
